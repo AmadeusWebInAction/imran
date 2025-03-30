@@ -48,16 +48,31 @@ function renderItem($item, $sheet) {
 	foreach ($show as $col => $what) {
 		$val = $meta[$col];
 		if ($what !== 'plain')
-			$val = makeLink($val, $base . replaceItems($what, ['meta' => urlize($val)], EXTERNALLINK));
+			$val = makeLink($val, $base . replaceItems($what, ['meta' => urlize($val)], '%'), EXTERNALLINK);
 		$info[$col] = $val;
 	}
 
+	runFeature('tables');
+
 	contentBox('piece', 'container');
+	echo '<div class="row">' . NEWLINE;
+
+	$divStart = '	<div class="h-100 col-sm-12 col-md-%colspan%">' . NEWLINE;
+	
+	echo replaceItems($divStart, ['colspan' => 12], '%');
 	h2($meta['SNo'] . ' ' . $name);
 	echo '<hr>' . NEWLINE;
-	runFeature('tables');
-	_tableHeadingsOnLeft(['id' => 'piece', 'class' => 'float-md-end all-links-external', 'style' => 'max-width: 500px;'], $info);
-	//echo implode(BRNL, $info) . '<hr>' . NEWLINES2;
+	echo '</div>' . NEWLINES2; //.col (title)
+
+	echo replaceItems($divStart, ['colspan' => 7], '%');
 	renderAny(YMNROOT . $piece);
+	echo '	</div>' . NEWLINES2; //.col
+
+	echo replaceItems($divStart, ['colspan' => 5], '%');
+	_tableHeadingsOnLeft(['id' => 'piece', 'class' => 'float-md-end all-links-external'], $info);
+	//echo implode(BRNL, $info) . '<hr>' . NEWLINES2;
 	contentBox('end');
+	echo '	</div>' . NEWLINES2; //.col
+
+	echo '</div>' . NEWLINES2; //.row
 }
