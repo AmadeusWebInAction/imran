@@ -1,5 +1,8 @@
-Welcome,
+<!--//meta
+About: &bull; Veteran Follower of Story and Technologist.|&bull; Builder of the unique AmadeusWeb platform|&bull; Founder/Writer/Ideator at YieldMore.org (2013)|&bull; Now building a model community at AmadeusWebWorld (2025)|&bull; Extends help to other "Lightworkers" and their communities using tech and writing|&bull; follow him in his continuing mission to comfort and encourage through his thoughts and poems.
 
-YieldMore.org was derived from the "YIELD" acronym in 2013, which means "Every Day Is Your Last" - an imperative to make the most of time, not just for ourselves, but the world.
+Description: New Home Page of Imran Ali Namazi - Dreamer and aspiring Lightworker.
 
-It [spans 6 websites](%url%our-history/) and gave birth to [AmadeusWeb in 2019](%amadeus-url%) and [AmadeusWeb World](%world-url%) in 2025 and launched me as a "[writer](%url%imran/writing/)", still determined to put my [thoughts out there](%world-url%people/imran/).
+Keywords: LifeDivine, WritingWithCompassion
+//meta-->
+
