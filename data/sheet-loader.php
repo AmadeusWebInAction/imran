@@ -30,7 +30,8 @@ function renderItem($item, $sheet) {
 	foreach(explode('	', 'Work	Collection	SNo	Name	Date	Dedication	Category	RhymeScheme	Description	Topic') as $col)
 		$meta[$col] = $sheet->getValue($item, $col);
 
-	$piece = concatSlugs(['imran', 'works', $meta['Work'], $meta['Collection'], urlize($name = $meta['Name'])]) . '.txt';
+	$fwe = concatSlugs(['imran', 'works', $meta['Work'], $meta['Collection'], urlize($name = $meta['Name'])]);
+	$piece = $fwe . '.txt';
 
 	$show = [
 		'Topic' => 'plain',
@@ -52,6 +53,20 @@ function renderItem($item, $sheet) {
 		$info[$col] = $val;
 	}
 
+	$mdInfo = []; $mdContent = false;
+	if ($hasMD = disk_file_exists($md = YMNROOT . $fwe . '.md')) {
+		$seo = read_seo($md);
+		$mdContent = disk_file_get_contents($md);
+		$mdInfo = [
+			'+With AI' => 'More Info',
+			'About' => isset($seo['about']) ? $seo['about'] : '(empty)',
+			'SEO Description' => isset($seo['description']) ? $seo['description'] : '(empty)',
+			'SEO Keywords' => isset($seo['keywords']) ? $seo['keywords'] : '(empty)',
+			'AI Author' => isset($seo['meta']['Author']) ? $seo['meta']['Author'] : '(empty)',
+			'AI Date' => isset($seo['meta']['Date']) ? $seo['meta']['Date'] : '(empty)',
+		];
+	}
+
 	runFeature('tables');
 
 	contentBox('piece', 'container');
@@ -70,9 +85,24 @@ function renderItem($item, $sheet) {
 
 	echo replaceItems($divStart, ['colspan' => 5], '%');
 	_tableHeadingsOnLeft(['id' => 'piece', 'class' => 'float-md-end all-links-external'], $info);
-	//echo implode(BRNL, $info) . '<hr>' . NEWLINES2;
+
+	if ($mdContent) {
+		_tableHeadingsOnLeft(['id' => 'piece', 'class' => 'float-md-end all-links-external'], $mdInfo);
+	}
+
 	contentBox('end');
 	echo '	</div>' . NEWLINES2; //.col
 
 	echo '</div>' . NEWLINES2; //.row
+
+	if ($mdContent) {
+		runFeature('engage');
+
+		contentBox('piece', 'container after-content');
+		h2('Deep Dive Into "' . $meta['Name'] . '"');
+
+		_renderEngage('piece', $md, true);
+		echo '	</div>' . NEWLINES2; //.col
+		contentBox('end');
+	}
 }
